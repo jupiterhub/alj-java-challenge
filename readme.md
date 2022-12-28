@@ -14,16 +14,17 @@ Application (with the embedded H2 database) is ready to be used ! You can access
 - migrate: updated branch name from `master` -> `main`
 - migrate: maven -> gradle  (shortens build by by ~80%) - https://tomgregory.com/maven-vs-gradle-comparison/
 - migrate: change swagger deps to springdocs because springfox is no longer maintained - https://stackoverflow.com/questions/72479827/are-there-any-advantages-of-using-migrating-to-springdoc-openapi-from-springfox#:~:text=springdoc%20is%20a%20much%20more,11%20vs%20270%20on%20Springfox).
-- security: secure endpoints via jwt, allow whitelist for cross-origin requests, disable csrf, ensure session is not used
+- security: secure only `api` endpoint. `user: "user", password: "password"`
 - build: added docker file
 - protocol: change response to json
 - test: added test coverage
 - added exceptions
 
-# Todo changes
+# Next changes
 - Restricted to Java 8, if not also change:
 - deps: upgrade to java 17 / Spring boot 3
 - deps: upgrade spring boot 2.x -> 3 (JDK 17 base/Foundation for AOT support/prep for vthreads - https://github.com/spring-projects/spring-framework/wiki/What's-New-in-Spring-Framework-6.x)
+- Use a stateless authentication via JWT
   
 
 ### Instructions

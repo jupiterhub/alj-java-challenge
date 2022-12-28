@@ -1,7 +1,9 @@
 package jp.co.axa.apidemo;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Role;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,6 +16,7 @@ import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -32,25 +35,15 @@ public class ApiDemoSecurityConfiguration  {
         http
                 .cors().and()
                 .csrf().disable()   // https://docs.spring.io/spring-security/site/docs/5.0.x/reference/html/csrf.html#when-to-use-csrf-protection
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // don't use sessions
-                .and()
                 .authorizeHttpRequests((authz) -> authz
-                        .antMatchers("/api/**").authenticated()
+                        .antMatchers("/swagger-ui/**").permitAll()  // allow without login for convenience
+                        .antMatchers("/h2-console/**").permitAll()  // allow without login for convenience
+                        .antMatchers("/api/v1/employees").authenticated()
+                        .anyRequest().authenticated()
                 )
                 .httpBasic(withDefaults());
         return http.build();
     }
-
-
-
-    /**
-     * allow access to these endpoints without logging in
-     */
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/h2-console/**", "/swagger-ui");
-    }
-
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
