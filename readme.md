@@ -32,6 +32,7 @@ Application (with the embedded H2 database) is ready to be used ! You can access
 - service: remove setter for `employeeRepository`
 - service: added transactional support (for ensuring no dirty read/writes)
 - feat: support paging
+- controller: return 400/404 on response instead of 500 error
 
 # Next changes
 - use `DTO` to separate entity later from view layer
@@ -42,6 +43,7 @@ Application (with the embedded H2 database) is ready to be used ! You can access
 - deps: upgrade to java 17 / Spring boot 3
 - deps: upgrade spring boot 2.x -> 3 (JDK 17 base/Foundation for AOT support/prep for vthreads - https://github.com/spring-projects/spring-framework/wiki/What's-New-in-Spring-Framework-6.x)
 - use a stateless authentication via JWT
+- db: consider using soft-delete instead of hard delete
 
   
 

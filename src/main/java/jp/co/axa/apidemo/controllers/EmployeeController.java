@@ -1,14 +1,21 @@
 package jp.co.axa.apidemo.controllers;
 
 import jp.co.axa.apidemo.entities.Employee;
+import jp.co.axa.apidemo.exception.EmployeeNotFoundException;
+import jp.co.axa.apidemo.exception.NameRequiredException;
 import jp.co.axa.apidemo.services.EmployeeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
+@Slf4j
 public class EmployeeController {
 
     @Autowired
@@ -19,9 +26,12 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees")
-    public List<Employee> getEmployees() {
-        List<Employee> employees = employeeService.retrieveEmployees();
-        return employees;
+    public Page<Employee> getEmployees(@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size) {
+        if (page != null && size != null) {
+            return employeeService.retrieveEmployees(PageRequest.of(page, size));
+        } else {
+            return employeeService.retrieveEmployees(Pageable.unpaged());
+        }
     }
 
     @GetMapping("/employees/{employeeId}")
@@ -30,25 +40,33 @@ public class EmployeeController {
     }
 
     @PostMapping("/employees")
-    public void saveEmployee(Employee employee){
-        employeeService.saveEmployee(employee);
-        System.out.println("Employee Saved Successfully");
+    public Employee saveEmployee(Employee employee){
+        Employee saved = employeeService.saveEmployee(employee);
+        if (saved == null) {
+            throw new NameRequiredException();
+        }
+        return saved;
     }
 
     @DeleteMapping("/employees/{employeeId}")
     public void deleteEmployee(@PathVariable(name="employeeId")Long employeeId){
-        employeeService.deleteEmployee(employeeId);
-        System.out.println("Employee Deleted Successfully");
+        boolean success = employeeService.deleteEmployee(employeeId);
+        if (!success) {
+            throw new EmployeeNotFoundException();
+        }
+        log.info("Employee Deleted Successfully");
     }
 
     @PutMapping("/employees/{employeeId}")
     public void updateEmployee(@RequestBody Employee employee,
                                @PathVariable(name="employeeId")Long employeeId){
         Employee emp = employeeService.getEmployee(employeeId);
-        if(emp != null){
-            employeeService.updateEmployee(employee);
+
+        if(emp == null){
+            throw new EmployeeNotFoundException();
         }
 
+        employeeService.updateEmployee(employee);
     }
 
 }

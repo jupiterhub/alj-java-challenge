@@ -23,7 +23,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     private EmployeeRepository employeeRepository;
 
     public List<Employee> retrieveEmployees() {
-        return employeeRepository.findAll();
+        return retrieveEmployees(Pageable.unpaged()).getContent();
     }
 
     public Page<Employee> retrieveEmployees(Pageable pageable) {
@@ -34,6 +34,7 @@ public class EmployeeServiceImpl implements EmployeeService{
         return employeeRepository.findById(employeeId).orElse(null);
     }
 
+
     public Employee saveEmployee(Employee employee){
         if (isEmployeeValid(employee))
             return null;
@@ -42,15 +43,15 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     public boolean deleteEmployee(Long employeeId){
-        try {
-            employeeRepository.deleteById(employeeId);
-            return true;
-        } catch(EmptyResultDataAccessException e) {
-            log.info("[IGNORE] Tried to delete employeeId={}, but it does not exist. Ignoring.", employeeId, e.getMessage());
-        } catch (IllegalArgumentException e) {
-            // absorb, null employeeId, no need to log
+        if (employeeId == null) return false;
+
+        Employee employee = getEmployee(employeeId);
+        if (employee == null) {
+            return false;
         }
-        return false;
+
+        employeeRepository.deleteById(employeeId);
+        return true;
     }
 
     /**

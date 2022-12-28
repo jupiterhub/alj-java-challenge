@@ -13,6 +13,9 @@ import java.util.List;
  */
 public interface EmployeeService {
 
+    /**
+     * @Deprecated use {@link #retrieveEmployees(Pageable)}.
+     */
     public List<Employee> retrieveEmployees();
 
     public Page<Employee> retrieveEmployees(Pageable pageable); // ideally create a wrapper for `Page` interface, but for simplicity just use it.
