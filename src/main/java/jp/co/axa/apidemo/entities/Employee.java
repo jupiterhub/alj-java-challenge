@@ -1,7 +1,6 @@
 package jp.co.axa.apidemo.entities;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +11,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="EMPLOYEE")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Employee {
 
     @Getter
@@ -22,12 +24,12 @@ public class Employee {
 
     @Getter
     @Setter
-//    @Column(name="EMPLOYEE_NAME") // remove `EMPLOYEE_` prefix and use default because the table is already an EMPLOYEE
+    @Column(nullable = false)
     private String name;
 
     @Getter
     @Setter
-//    @Column(name="EMPLOYEE_SALARY")
+//    @Column(name="EMPLOYEE_SALARY")   // remove `EMPLOYEE_` prefix and use default because the table is already an EMPLOYEE
     private Integer salary;
 
     @Getter

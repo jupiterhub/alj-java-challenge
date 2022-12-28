@@ -26,14 +26,23 @@ Application (with the embedded H2 database) is ready to be used ! You can access
 - entity: use default column names
   - no need to repeat `employee_` on column names since the table is already employee
 - test: added test coverage
-- added exceptions
+- logging: add exception logs
+- service: change signature to return operation of delete/put
+- service: handle 500 errors to return 404 if deleting/updating resource that does not exist
+- service: remove setter for `employeeRepository`
+- service: added transactional support (for ensuring no dirty read/writes)
+- feat: support paging
 
 # Next changes
+- use `DTO` to separate entity later from view layer
+- caching was purposely not implemented as we want freshness of data. It's easy to implement via @Cacheable annotation
+  - Ideally the authentication should be in an api gateway, including routing to different services
+  - caching layer should be outside implemented using memcache/redis
 - Restricted to Java 8, if not also change:
 - deps: upgrade to java 17 / Spring boot 3
 - deps: upgrade spring boot 2.x -> 3 (JDK 17 base/Foundation for AOT support/prep for vthreads - https://github.com/spring-projects/spring-framework/wiki/What's-New-in-Spring-Framework-6.x)
-- Control the roles of authentication for admin api (ie. h2-console, ROLE_EMPLOYEE_ADMIN ,etc.) 
 - use a stateless authentication via JWT
+
   
 
 ### Instructions
