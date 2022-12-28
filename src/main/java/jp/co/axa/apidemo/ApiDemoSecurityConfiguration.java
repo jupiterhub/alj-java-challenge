@@ -38,8 +38,7 @@ public class ApiDemoSecurityConfiguration  {
                 .authorizeHttpRequests((authz) -> authz
                         .antMatchers("/swagger-ui/**").permitAll()  // allow without login for convenience
                         .antMatchers("/h2-console/**").permitAll()  // allow without login for convenience
-                        .antMatchers("/api/v1/employees").authenticated()
-                        .anyRequest().authenticated()
+                        .antMatchers("/api/**").authenticated()
                 )
                 .httpBasic(withDefaults());
         return http.build();

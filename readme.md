@@ -12,10 +12,16 @@ Application (with the embedded H2 database) is ready to be used ! You can access
 
 # Changes
 - migrate: updated branch name from `master` -> `main`
-- migrate: maven -> gradle  (shortens build by by ~80%) - https://tomgregory.com/maven-vs-gradle-comparison/
-- migrate: change swagger deps to springdocs because springfox is no longer maintained - https://stackoverflow.com/questions/72479827/are-there-any-advantages-of-using-migrating-to-springdoc-openapi-from-springfox#:~:text=springdoc%20is%20a%20much%20more,11%20vs%20270%20on%20Springfox).
-- security: secure only `api` endpoint. `user: "user", password: "password"`
+- migrate: maven -> gradle  
+  - shortens build by by ~80% - https://tomgregory.com/maven-vs-gradle-comparison/
+- migrate: 
+  - change swagger deps to springdocs because springfox is no longer maintained - https://stackoverflow.com/questions/72479827/are-there-any-advantages-of-using-migrating-to-springdoc-openapi-from-springfox#:~:text=springdoc%20is%20a%20much%20more,11%20vs%20270%20on%20Springfox).
+- security: secure only `api` endpoint via http
+  - user/pass: `user/password` 
 - build: added docker file
+  - to build `./gradlew build && docker build  -t jupiterhub/java-challenge .`
+  - to run `docker run -p 8080:8080 jupiterhub/java-challenge`
+  - access swagger-ui
 - protocol: change response to json
 - test: added test coverage
 - added exceptions
@@ -24,7 +30,8 @@ Application (with the embedded H2 database) is ready to be used ! You can access
 - Restricted to Java 8, if not also change:
 - deps: upgrade to java 17 / Spring boot 3
 - deps: upgrade spring boot 2.x -> 3 (JDK 17 base/Foundation for AOT support/prep for vthreads - https://github.com/spring-projects/spring-framework/wiki/What's-New-in-Spring-Framework-6.x)
-- Use a stateless authentication via JWT
+- Control the roles of authentication for admin api (ie. h2-console, ROLE_EMPLOYEE_ADMIN ,etc.) 
+- use a stateless authentication via JWT
   
 
 ### Instructions
