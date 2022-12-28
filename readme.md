@@ -10,7 +10,20 @@ Application (with the embedded H2 database) is ready to be used ! You can access
 
 > Don't forget to set the `JDBC URL` value as `jdbc:h2:mem:testdb` for H2 UI.
 
+# Changes
+- git: updated branch name from `master` -> `main`
+- build: maven -> gradle  (shortens build by by ~80%) - https://tomgregory.com/maven-vs-gradle-comparison/
+- security: secure endpoints via jwt
+- build: added docker file
+- protocol: change response to json
+- test: added test coverage
+- added exceptions
 
+# Todo changes
+- Restricted to Java 8, if not also change:
+- deps: upgrade to java 17 / Spring boot 3
+- deps: upgrade spring boot 2.x -> 3 (JDK 17 base/Foundation for AOT support/prep for vthreads - https://github.com/spring-projects/spring-framework/wiki/What's-New-in-Spring-Framework-6.x)
+  
 
 ### Instructions
 
