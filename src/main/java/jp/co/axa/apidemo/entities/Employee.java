@@ -22,7 +22,7 @@ public class Employee {
 
     @Getter
     @Setter
-//    @Column(name="EMPLOYEE_NAME")
+//    @Column(name="EMPLOYEE_NAME") // remove `EMPLOYEE_` prefix and use default because the table is already an EMPLOYEE
     private String name;
 
     @Getter
