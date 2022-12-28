@@ -16,13 +16,15 @@ Application (with the embedded H2 database) is ready to be used ! You can access
   - shortens build by by ~80% - https://tomgregory.com/maven-vs-gradle-comparison/
 - migrate: 
   - change swagger deps to springdocs because springfox is no longer maintained - https://stackoverflow.com/questions/72479827/are-there-any-advantages-of-using-migrating-to-springdoc-openapi-from-springfox#:~:text=springdoc%20is%20a%20much%20more,11%20vs%20270%20on%20Springfox).
-- security: secure only `api` endpoint via http
-  - user/pass: `user/password` 
+- security: secure `api` endpoint and `h2-console` resource via http
+  - user/pass for api operations: `api/123`
+  - user/pass for h2-console: `db/123`
 - build: added docker file
   - to build `./gradlew build && docker build  -t jupiterhub/java-challenge .`
   - to run `docker run -p 8080:8080 jupiterhub/java-challenge`
   - access swagger-ui
-- protocol: change response to json
+- entity: use default column names
+  - no need to repeat `employee_` on column names since the table is already employee
 - test: added test coverage
 - added exceptions
 

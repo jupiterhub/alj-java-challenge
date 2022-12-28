@@ -1,22 +1,17 @@
 package jp.co.axa.apidemo;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Role;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -35,10 +30,12 @@ public class ApiDemoSecurityConfiguration  {
         http
                 .cors().and()
                 .csrf().disable()   // https://docs.spring.io/spring-security/site/docs/5.0.x/reference/html/csrf.html#when-to-use-csrf-protection
+                .headers().frameOptions().disable() // for h2 console, frames
+                .and()
                 .authorizeHttpRequests((authz) -> authz
-                        .antMatchers("/swagger-ui/**").permitAll()  // allow without login for convenience
-                        .antMatchers("/h2-console/**").permitAll()  // allow without login for convenience
-                        .antMatchers("/api/**").authenticated()
+                        .antMatchers("/h2-console/**").hasRole("DB")  // accessing db requires permission
+                        .antMatchers("/swagger-ui/**").permitAll()  // accessing swagger-ui is public
+                        .antMatchers("/api/**").hasRole("API")
                 )
                 .httpBasic(withDefaults());
         return http.build();
@@ -69,13 +66,21 @@ public class ApiDemoSecurityConfiguration  {
      */
     @Bean
     public UserDetailsManager users(DataSource dataSource) {
-        UserDetails user = User.withDefaultPasswordEncoder()
-                .username("user")
-                .password("password")
-                .roles("USER")
+        UserDetails apiUser = User.withDefaultPasswordEncoder()
+                .username("api")
+                .password("123")
+                .roles("API")
                 .build();
+
+        UserDetails h2User = User.withDefaultPasswordEncoder()
+                .username("db")
+                .password("123")
+                .roles("DB")
+                .build();
+
         JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
-        users.createUser(user);
+        users.createUser(apiUser);
+        users.createUser(h2User);
         return users;
     }
 }
