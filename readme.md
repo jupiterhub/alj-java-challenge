@@ -11,8 +11,9 @@ Application (with the embedded H2 database) is ready to be used ! You can access
 > Don't forget to set the `JDBC URL` value as `jdbc:h2:mem:testdb` for H2 UI.
 
 # Changes
-- git: updated branch name from `master` -> `main`
-- build: maven -> gradle  (shortens build by by ~80%) - https://tomgregory.com/maven-vs-gradle-comparison/
+- migrate: updated branch name from `master` -> `main`
+- migrate: maven -> gradle  (shortens build by by ~80%) - https://tomgregory.com/maven-vs-gradle-comparison/
+- migrate: change swagger deps to springdocs because springfox is no longer maintained - https://stackoverflow.com/questions/72479827/are-there-any-advantages-of-using-migrating-to-springdoc-openapi-from-springfox#:~:text=springdoc%20is%20a%20much%20more,11%20vs%20270%20on%20Springfox).
 - security: secure endpoints via jwt
 - build: added docker file
 - protocol: change response to json
