@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +40,7 @@ public class EmployeeServiceImpl implements EmployeeService{
         if (isEmployeeValid(employee))
             return null;
 
+        employee.setCreatedDate(Instant.now().toEpochMilli());
         return employeeRepository.save(employee);
     }
 
@@ -54,11 +56,12 @@ public class EmployeeServiceImpl implements EmployeeService{
         return true;
     }
 
-    /**
-     * wrapper for {@link #saveEmployee(Employee)}
-     */
     public Employee updateEmployee(Employee employee) {
-        return saveEmployee(employee);
+        if (isEmployeeValid(employee))
+            return null;
+
+        employee.setLastModified(Instant.now().toEpochMilli());
+        return employeeRepository.save(employee);
     }
 
     private static boolean isEmployeeValid(Employee employee) {

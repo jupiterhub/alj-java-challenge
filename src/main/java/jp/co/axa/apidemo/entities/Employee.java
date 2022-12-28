@@ -1,40 +1,35 @@
 package jp.co.axa.apidemo.entities;
 
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name="EMPLOYEE")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class Employee {
 
-    @Getter
-    @Setter
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-    @Getter
-    @Setter
     @Column(nullable = false)
     private String name;
 
-    @Getter
-    @Setter
 //    @Column(name="EMPLOYEE_SALARY")   // remove `EMPLOYEE_` prefix and use default because the table is already an EMPLOYEE
     private Integer salary;
 
-    @Getter
-    @Setter
 //    @Column(name="DEPARTMENT")
     private String department;
 
+    private Long lastModified;
+
+    @Column(name = "created_date", updatable = false)
+    private Long createdDate;
 }

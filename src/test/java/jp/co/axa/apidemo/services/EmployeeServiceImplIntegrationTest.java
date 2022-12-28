@@ -73,9 +73,10 @@ class EmployeeServiceImplIntegrationTest {
         // Then
         assertNotNull(retrieved);
         assertNotNull(retrieved.getId());
-        assertEquals("test-1", saved.getName());
-        assertEquals(100, saved.getSalary());
-        assertEquals("it", saved.getDepartment());
+        assertEquals("test-1", retrieved.getName());
+        assertEquals(100, retrieved.getSalary());
+        assertEquals("it", retrieved.getDepartment());
+        assertNotNull(retrieved.getCreatedDate());
     }
 
 

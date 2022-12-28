@@ -18,7 +18,7 @@ public interface EmployeeService {
      */
     public List<Employee> retrieveEmployees();
 
-    public Page<Employee> retrieveEmployees(Pageable pageable); // ideally create a wrapper for `Page` interface, but for simplicity just use it.
+    public Page<Employee> retrieveEmployees(Pageable pageable); // create a simpler wrapper for `Page` interface, but for simplicity of this test, let's just use it.
 
     public Employee getEmployee(Long employeeId);
 

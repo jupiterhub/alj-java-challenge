@@ -36,6 +36,7 @@ Application (with the embedded H2 database) is ready to be used ! You can access
 
 # Next changes
 - use `DTO` to separate entity later from view layer
+- a simpler interface for `Page` wrapper. For the initial version I used as-is to save time.
 - caching was purposely not implemented as we want freshness of data. It's easy to implement via @Cacheable annotation
   - Ideally the authentication should be in an api gateway, including routing to different services
   - caching layer should be outside implemented using memcache/redis
