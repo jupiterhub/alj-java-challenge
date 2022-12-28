@@ -10,7 +10,7 @@ Application (with the embedded H2 database) is ready to be used ! You can access
 
 > Don't forget to set the `JDBC URL` value as `jdbc:h2:mem:testdb` for H2 UI.
 
-# Changes
+# Changes (What I implemented)
 - migrate: updated branch name from `master` -> `main`
 - migrate: maven -> gradle  
   - shortens build by by ~80% - https://tomgregory.com/maven-vs-gradle-comparison/
@@ -34,7 +34,7 @@ Application (with the embedded H2 database) is ready to be used ! You can access
 - feat: support paging
 - controller: return 400/404 on response instead of 500 error
 
-# Next changes
+# Next changes (What I could have implemented if dedicating more time)
 - use `DTO` to separate entity later from view layer
 - a simpler interface for `Page` wrapper. For the initial version I used as-is to save time.
 - caching was purposely not implemented as we want freshness of data. It's easy to implement via @Cacheable annotation
